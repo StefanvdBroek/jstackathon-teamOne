@@ -1,11 +1,9 @@
 package eu.jstack.stockmanagement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/menu")
 public class MenuService {
+    @Autowired
+    private MealInventory mealInventory;
+
     @RequestMapping("/meals")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -25,5 +26,12 @@ public class MenuService {
         meals.add(new Meal(UUID.fromString("8216ff13-49df-4c8a-a26b-7a89cee513c8"), "Boerenkool met worst", "Consectetur adipiscing elit", "boerenkool.png"));
         meals.add(new Meal(UUID.fromString("4034f2db-7989-4563-aa73-50cd9199d9b7"), "Tournedos", "Jammie!", "tournedos.png"));
         return meals;
+    }
+
+    @RequestMapping("/meals/{mealId}/inventory")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public int getInventory(@PathVariable String mealId) {
+        return this.mealInventory.getMealInventory(UUID.fromString(mealId));
     }
 }

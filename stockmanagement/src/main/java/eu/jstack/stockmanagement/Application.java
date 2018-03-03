@@ -23,12 +23,21 @@ public class Application implements CommandLineRunner {
     }
 
     @Autowired
+    private MealInventory mealInventory;
+
+    @Autowired
     private KafkaTemplate<String, String> template;
 
     private final CountDownLatch latch = new CountDownLatch(3);
 
     @Override
     public void run(String... args) throws Exception {
+        this.mealInventory.addMeals(Meal.MEAL_1, 20);
+        this.mealInventory.addMeals(Meal.MEAL_2, 20);
+        this.mealInventory.addMeals(Meal.MEAL_3, 20);
+        this.mealInventory.addMeals(Meal.MEAL_4, 20);
+        this.mealInventory.addMeals(Meal.MEAL_5, 20);
+
         this.template.send("myTopic", "foo1");
         this.template.send("myTopic", "foo2");
         this.template.send("myTopic", "foo3");
