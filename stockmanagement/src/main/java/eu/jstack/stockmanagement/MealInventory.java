@@ -31,7 +31,7 @@ public class MealInventory {
     }
 
     public void orderMeal(UUID mealId) {
-        Integer newValue = this.inventory.computeIfPresent(mealId, (k, v) -> v--);
+        Integer newValue = this.inventory.computeIfPresent(mealId, (k, v) -> v - 1);
         this.template.send("inventory", mealId.toString() + "," + newValue);
     }
 }
